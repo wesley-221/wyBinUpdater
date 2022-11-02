@@ -12,6 +12,9 @@ Compiler and updater for various applications
 
 You should now be able to connect to the wyBin server and transfer files to it.
 
+## Changing entries
+If you need to change the application entries, you can easily do so without having to recompile. There is a file called `update-items.json` which holds all the applications that are configured by default. You can add, delete or change an entry to your needs and it'll load them in.
+
 ## wyBin front-end
 Compiles the wyBin front-end and uploads it to the wyBin server.
 
