@@ -1,0 +1,48 @@
+[
+  {
+    "Name": "wyBin-front-end",
+    "FolderLocation": "E:\\Projects\\wyBin",
+    "SshCommands": [
+      "cmd /c yarn install",
+      "CALL ng build --configuration production",
+      "@echo off",
+      "echo cd /var/www/wybin.xyz/public_html >> sftp.txt",
+      "echo put -r %cd%\\dist\\wybin /var/www/wybin.xyz/public_html >> sftp.txt",
+      "echo quit >> sftp.txt",
+      "sftp -b sftp.txt root@wybin.xyz"
+    ]
+  },
+  {
+    "Name": "wyBin-back-end",
+    "FolderLocation": "E:\\Projects\\wyBin\\api",
+    "SshCommands": [
+      "CALL .\\gradlew build",
+      "@echo off",
+      "echo put %cd%\\build\\libs\\wyBin-0.0.1-SNAPSHOT.jar /opt/wybin/wyBin.jar >> sftp.txt",
+      "echo quit >> sftp.txt",
+      "sftp -b sftp.txt root@wybin.xyz"
+    ]
+  },
+  {
+    "Name": "DirkBot",
+    "FolderLocation": "E:\\Projects\\DirkBot",
+    "SshCommands": [
+      "CALL .\\gradlew build",
+      "@echo off",
+      "echo put %cd%\\build\\libs\\Dirk-0.0.1-SNAPSHOT.jar /opt/dirk/DirkBot.jar >> sftp.txt",
+      "echo quit >> sftp.txt",
+      "sftp -b sftp.txt root@wybin.xyz"
+    ]
+  },
+  {
+    "Name": "wyBinBot",
+    "FolderLocation": "E:\\Projects\\wyBinBot",
+    "SshCommands": [
+      "CALL .\\gradlew build",
+      "@echo off",
+      "echo put %cd%\\build\\libs\\wyBinBot-1.0-SNAPSHOT.jar /opt/wyBinBot/wyBinBot.jar >> sftp.txt",
+      "echo quit >> sftp.txt",
+      "sftp -b sftp.txt root@wybin.xyz"
+    ]
+  }
+]

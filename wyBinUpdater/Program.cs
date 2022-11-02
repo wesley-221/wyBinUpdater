@@ -1,52 +1,23 @@
 ﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using System.Text.Json;
 using wyBinUpdater;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        List<UpdateItem> updateItems = new()
+        List<UpdateItem>? updateItems = new List<UpdateItem>();
+
+        using (StreamReader r = new StreamReader("update-items.json"))
         {
-            new UpdateItem("wyBin-front-end", "E:\\Projects\\wyBin", new()
-            {
-                "cmd /c yarn install",
-                "CALL ng build --configuration production",
-                "@echo off",
-                "echo cd /var/www/wybin.xyz/public_html >> sftp.txt",
-                "echo put -r %cd%\\dist\\wybin /var/www/wybin.xyz/public_html >> sftp.txt",
-                "echo quit >> sftp.txt",
-                "sftp -b sftp.txt root@wybin.xyz",
-                "pause"
-            }),
-            new UpdateItem("wyBin-back-end", "E:\\Projects\\wyBin\\api", new()
-            {
-                "CALL .\\gradlew build",
-                "@echo off",
-                "echo put %cd%\\build\\libs\\wyBin-0.0.1-SNAPSHOT.jar /opt/wybin/wyBin.jar >> sftp.txt",
-                "echo quit >> sftp.txt",
-                "sftp -b sftp.txt root@wybin.xyz",
-                "DEL sftp.txt"
-            }),
-            new UpdateItem("DirkBot", "E:\\Projects\\DirkBot", new()
-            {
-                "CALL .\\gradlew build",
-                "@echo off",
-                "echo put %cd%\\build\\libs\\Dirk-0.0.1-SNAPSHOT.jar /opt/dirk/DirkBot.jar >> sftp.txt",
-                "echo quit >> sftp.txt",
-                "sftp -b sftp.txt root@wybin.xyz",
-                "DEL sftp.txt"
-            }),
-            new UpdateItem("wyBinBot", "E:\\Projects\\wyBinBot", new() 
-            {
-                "CALL .\\gradlew build",
-                "@echo off",
-                "echo put %cd%\\build\\libs\\wyBinBot-1.0-SNAPSHOT.jar /opt/wyBinBot/wyBinBot.jar >> sftp.txt",
-                "echo quit >> sftp.txt",
-                "sftp -b sftp.txt root@wybin.xyz",
-                "DEL sftp.txt"
-            })
-        };
+            string json = r.ReadToEnd();
+            updateItems = JsonSerializer.Deserialize<List<UpdateItem>>(json);
+        }
+
+        updateItems.ForEach(item =>
+        {
+            Console.WriteLine(item.Name);
+        });
 
         ShowMenu(updateItems, true);
 
