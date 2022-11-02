@@ -14,11 +14,6 @@ internal class Program
             updateItems = JsonSerializer.Deserialize<List<UpdateItem>>(json);
         }
 
-        updateItems.ForEach(item =>
-        {
-            Console.WriteLine(item.Name);
-        });
-
         ShowMenu(updateItems, true);
 
         int input;
